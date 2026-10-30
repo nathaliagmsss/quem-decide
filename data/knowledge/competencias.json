@@ -3,6 +3,12 @@
     "competencias": [
       {
         "assunto": "policiamento_ostensivo",
+        "termos": [
+            "policiamento ostensivo",
+            "policiamento nas ruas",
+            "patrulhamento policial",
+            "polícia nas ruas"
+          ],
         "orgao": "Polícia Militar",
         "ente": "Estado",
         "relacao": "executa",
@@ -14,6 +20,11 @@
       },
       {
         "assunto": "investigacao_criminal",
+        "termos": [
+            "investigação criminal",
+            "investigar crimes",
+            "investigação de crimes"
+          ],
         "orgao": "Polícia Civil",
         "ente": "Estado",
         "relacao": "executa",
@@ -26,6 +37,11 @@
       },
       {
         "assunto": "patrulhamento_rodovias_federais",
+        "termos": [
+            "rodovias federais",
+            "patrulhamento de rodovias federais",
+            "policiamento em rodovia federal"
+          ],
         "orgao": "Polícia Rodoviária Federal",
         "ente": "União",
         "relacao": "executa",
