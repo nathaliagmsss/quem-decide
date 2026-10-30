@@ -1,0 +1,104 @@
+{
+    "id": "caso_002",
+    "tema": {
+      "id": "inelegibilidade_violencia_mulher",
+      "nome": "Inelegibilidade por violência contra a mulher",
+      "termos": [
+        "inelegibilidade",
+        "violência contra a mulher",
+        "candidato condenado",
+        "registro de candidatura"
+      ]
+    },
+    "decisoes": [
+        {
+            "id": "decisao_tse_2026_10_29",
+            "orgao": "Tribunal Superior Eleitoral",
+            "sigla_orgao": "TSE",
+            "data": "2026-10-29",
+            "tipo": "decisao_judicial",
+            "objeto": "Inelegibilidade de candidato condenado criminalmente por lesão corporal praticada contra mulher por razões da condição do sexo feminino",
+            "acao": "interpretacao_e_aplicacao_de_norma_existente",
+            "cria_nova_hipotese_legal": false,
+            "efeito": {
+              "descricao": "Indeferimento do registro de candidatura no caso analisado",
+              "aplicacao": "caso_concreto"
+            },
+            "normas_aplicadas": [
+              {
+                "norma": "Lei Complementar nº 64/1990",
+                "tipo_relacao": "interpreta_e_aplica"
+              }
+            ],
+            "fontes": [
+                "fonte_tse_2026_10_29"
+              ]
+          }
+    ],
+    "proposicoes_legislativas": [
+        {
+          "id": "plp_197_2024",
+          "tipo": "Projeto de Lei Complementar",
+          "numero": "197/2024",
+          "autoria": "Senadora Augusta Brito",
+          "casa_origem": "Senado Federal",
+          "objetivo": "Alterar a Lei Complementar nº 64/1990 para instituir expressamente a inelegibilidade por crimes praticados com violência doméstica e familiar contra a mulher",
+          "normas_relacionadas": [
+            {
+              "norma": "Lei Complementar nº 64/1990",
+              "tipo_relacao": "pretende_alterar"
+            }
+          ],
+          "tramitacao": [
+            {
+              "data": "2024-11-18",
+              "orgao": "Senado Federal",
+              "evento": "apresentacao",
+              "descricao": "Apresentação do Projeto de Lei Complementar nº 197/2024"
+            },
+            {
+              "data": "2025-05-28",
+              "orgao": "Comissão de Direitos Humanos e Legislação Participativa",
+              "sigla_orgao": "CDH",
+              "evento": "parecer_aprovado",
+              "descricao": "Aprovação de parecer favorável à proposição"
+            },
+            {
+              "data": "2025-05-30",
+              "orgao": "Comissão de Constituição, Justiça e Cidadania",
+              "sigla_orgao": "CCJ",
+              "evento": "encaminhamento",
+              "descricao": "Proposição encaminhada à CCJ"
+            }
+          ],
+          "situacao_atual": {
+            "data_consulta": "2026-10-30",
+            "orgao": "Comissão de Constituição, Justiça e Cidadania",
+            "sigla_orgao": "CCJ",
+            "status": "aguardando_designacao_de_relator",
+            "fonte": "fonte_senado_plp_197_2024"
+          },
+          "fontes": [
+            "fonte_senado_plp_197_2024"
+          ]
+        }
+      ],
+    "fontes": [
+        {
+          "id": "fonte_tse_2026_10_29",
+          "instituicao": "Tribunal Superior Eleitoral",
+          "tipo": "noticia_institucional",
+          "titulo": "TSE confirma inelegibilidade de candidato condenado por violência contra a mulher",
+          "data_publicacao": "2026-10-29",
+          "url": "https://www.tse.jus.br/comunicacao/noticias/2026/Outubro/e-confirma-inelegibilidade-de-candidato-condenado-por-violencia-contra-a-mulher"
+        },
+        {
+          "id": "fonte_senado_plp_197_2024",
+          "instituicao": "Senado Federal",
+          "tipo": "pagina_tramitacao",
+          "titulo": "PLP 197/2024",
+          "data_consulta": "2026-10-30",
+          "url": "https://www25.senado.leg.br/web/atividade/materias/-/materia/166157"
+        }
+    ]
+  }
