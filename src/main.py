@@ -1,41 +1,6 @@
-import json
-from pathlib import Path
+from knowledge import carregar_competencias
+from interpreter import buscar_competencia, identificar_tema
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-KNOWLEDGE_PATH = BASE_DIR / "data" / "knowledge" / "competencias.json"
-
-
-def carregar_competencias():
-    with open(KNOWLEDGE_PATH, encoding="utf-8") as arquivo:
-        dados = json.load(arquivo)
-
-    return dados["competencias"]
-
-
-def buscar_competencia(consulta, competencias):
-    consulta = consulta.lower().strip()
-
-    for competencia in competencias:
-        assunto = competencia["assunto"].replace("_", " ")
-
-        if assunto in consulta:
-            return competencia
-
-        for termo in competencia.get("termos", []):
-            if termo.lower() in consulta:
-                return competencia
-
-    return None
-
-def identificar_tema(consulta, tema):
-    consulta = consulta.lower().strip()
-
-    for termo in tema.get("termos", []):
-        if termo.lower() in consulta:
-            return True
-
-    return False
 
 def exibir_competencia(competencia):
     fundamento = competencia["fundamento"]
@@ -58,8 +23,7 @@ def exibir_competencia(competencia):
 
 
 def main():
-    with open(KNOWLEDGE_PATH, encoding="utf-8") as arquivo:
-        dados = json.load(arquivo)
+    dados = carregar_competencias()
 
     competencias = dados["competencias"]
     tema = dados["tema"]
