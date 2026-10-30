@@ -19,15 +19,23 @@ def buscar_competencia(consulta, competencias):
     for competencia in competencias:
         assunto = competencia["assunto"].replace("_", " ")
 
-        if consulta == assunto:
+        if assunto in consulta:
             return competencia
 
         for termo in competencia.get("termos", []):
-            if consulta == termo.lower():
+            if termo.lower() in consulta:
                 return competencia
 
     return None
 
+def identificar_tema(consulta, tema):
+    consulta = consulta.lower().strip()
+
+    for termo in tema.get("termos", []):
+        if termo.lower() in consulta:
+            return True
+
+    return False
 
 def exibir_competencia(competencia):
     fundamento = competencia["fundamento"]
@@ -50,16 +58,30 @@ def exibir_competencia(competencia):
 
 
 def main():
-    competencias = carregar_competencias()
+    with open(KNOWLEDGE_PATH, encoding="utf-8") as arquivo:
+        dados = json.load(arquivo)
 
-    assunto = input("Digite o assunto que deseja consultar: ").strip()
+    competencias = dados["competencias"]
+    tema = dados["tema"]
 
-    resultado = buscar_competencia(assunto, competencias)
+    consulta = input("Digite sua pergunta: ").strip()
+
+    resultado = buscar_competencia(consulta, competencias)
 
     if resultado:
         exibir_competencia(resultado)
+
+    elif identificar_tema(consulta, tema):
+        print(f"\nSua pergunta envolve: {tema['nome']}.")
+        print("Esse tema possui diferentes competências institucionais.")
+        print("\nVocê pode perguntar sobre:")
+
+        for competencia in competencias:
+            assunto = competencia["assunto"].replace("_", " ")
+            print(f"- {assunto}")
+
     else:
-        print("\nCompetência não encontrada.")
+        print("\nAinda não encontrei informações suficientes na minha base.")
 
 
 if __name__ == "__main__":

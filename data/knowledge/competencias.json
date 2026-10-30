@@ -1,5 +1,14 @@
 {
-    "tema": "seguranca_publica",
+    "tema": {
+        "id": "seguranca_publica",
+        "nome": "Segurança Pública",
+        "termos": [
+          "segurança pública",
+          "segurança",
+          "violência",
+          "criminalidade"
+        ]
+      },
     "competencias": [
       {
         "assunto": "policiamento_ostensivo",
