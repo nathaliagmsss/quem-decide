@@ -1,0 +1,39 @@
+{
+    "tema": "seguranca_publica",
+    "competencias": [
+      {
+        "assunto": "policiamento_ostensivo",
+        "orgao": "Polícia Militar",
+        "ente": "Estado",
+        "relacao": "executa",
+        "fundamento": {
+          "norma": "Constituição Federal de 1988",
+          "artigo": "144",
+          "paragrafo": "5º"
+        }
+      },
+      {
+        "assunto": "investigacao_criminal",
+        "orgao": "Polícia Civil",
+        "ente": "Estado",
+        "relacao": "executa",
+        "observacao": "Ressalvadas as competências da União.",
+        "fundamento": {
+          "norma": "Constituição Federal de 1988",
+          "artigo": "144",
+          "paragrafo": "4º"
+        }
+      },
+      {
+        "assunto": "patrulhamento_rodovias_federais",
+        "orgao": "Polícia Rodoviária Federal",
+        "ente": "União",
+        "relacao": "executa",
+        "fundamento": {
+          "norma": "Constituição Federal de 1988",
+          "artigo": "144",
+          "paragrafo": "2º"
+        }
+      }
+    ]
+  }
