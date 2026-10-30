@@ -1,5 +1,8 @@
-from src.knowledge import buscar_proposicao, buscar_fonte
-
+from src.knowledge import (
+    buscar_proposicao,
+    buscar_fonte,
+    buscar_decisao,
+)
 
 def test_buscar_proposicao_existente():
     proposicao = buscar_proposicao("plp_197_2024")
@@ -32,3 +35,10 @@ def test_fonte_pode_ser_resolvida():
     assert fonte is not None
     assert fonte["instituicao"] == "Senado Federal"
     assert fonte["url"]
+
+def test_buscar_decisao_tse():
+    decisao = buscar_decisao("decisao_tse_2026_10_29")
+
+    assert decisao is not None
+    assert decisao["sigla_orgao"] == "TSE"
+    assert decisao["cria_nova_hipotese_legal"] is False

@@ -52,3 +52,12 @@ def buscar_fonte(fonte_id):
             return fonte
 
     return None
+
+def buscar_decisao(decisao_id):
+    dados = carregar_caso_002()
+
+    for decisao in dados.get("decisoes", []):
+        if decisao["id"] == decisao_id:
+            return decisao
+
+    return None

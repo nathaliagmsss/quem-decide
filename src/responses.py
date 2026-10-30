@@ -20,3 +20,26 @@ def responder_tramitacao(proposicao, fonte=None):
         print("\nFonte oficial:")
         print(f"{fonte['instituicao']} — {fonte['titulo']}")
         print(fonte["url"])
+
+def responder_decisao(decisao, fonte=None):
+    print("\n--- Quem Decide? ---")
+
+    print(
+        f"Sim. Em {decisao['data']}, o {decisao['sigla_orgao']} "
+        "analisou um caso envolvendo inelegibilidade por condenação "
+        "criminal relacionada à violência contra a mulher."
+    )
+
+    if decisao["cria_nova_hipotese_legal"] is False:
+        print(
+            "\nA decisão não criou uma nova hipótese legal de "
+            "inelegibilidade. O tribunal interpretou e aplicou "
+            "uma norma já existente."
+        )
+
+    print(f"\nEfeito: {decisao['efeito']['descricao']}.")
+
+    if fonte:
+        print("\nFonte oficial:")
+        print(f"{fonte['instituicao']} — {fonte['titulo']}")
+        print(fonte["url"])

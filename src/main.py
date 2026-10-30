@@ -1,14 +1,18 @@
-from responses import responder_tramitacao
+from responses import responder_tramitacao, responder_decisao
+
 from knowledge import (
     carregar_competencias,
     buscar_proposicao,
     buscar_fonte,
+    buscar_decisao,
 )
+
 from interpreter import (
     buscar_competencia,
     identificar_tema,
     identificar_intencao,
     identificar_proposicao,
+    identificar_decisao,
 )
 
 def exibir_competencia(competencia):
@@ -52,6 +56,19 @@ def main():
                 fonte = buscar_fonte(fonte_id) if fonte_id else None
 
                 responder_tramitacao(proposicao, fonte)
+                return
+
+    if intencao == "decisao":
+        decisao_id = identificar_decisao(consulta)
+
+        if decisao_id:
+            decisao = buscar_decisao(decisao_id)
+
+            if decisao:
+                fonte_id = decisao.get("fontes", [None])[0]
+                fonte = buscar_fonte(fonte_id) if fonte_id else None
+
+                responder_decisao(decisao, fonte)
                 return
 
     print(f"\nIntenção identificada: {intencao}")

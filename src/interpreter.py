@@ -66,3 +66,23 @@ def identificar_proposicao(consulta):
         return "plp_197_2024"
 
     return None
+
+def identificar_decisao(consulta):
+    consulta = consulta.lower().strip()
+
+    termos_tse_violencia_mulher = [
+        "tse",
+        "inelegibilidade",
+        "violência contra a mulher",
+        "registro de candidatura",
+    ]
+
+    correspondencias = sum(
+        termo in consulta
+        for termo in termos_tse_violencia_mulher
+    )
+
+    if correspondencias >= 2:
+        return "decisao_tse_2026_10_29"
+
+    return None
