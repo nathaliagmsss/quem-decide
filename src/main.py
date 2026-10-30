@@ -1,6 +1,15 @@
-from knowledge import carregar_competencias
-from interpreter import buscar_competencia, identificar_tema
-
+from responses import responder_tramitacao
+from knowledge import (
+    carregar_competencias,
+    buscar_proposicao,
+    buscar_fonte,
+)
+from interpreter import (
+    buscar_competencia,
+    identificar_tema,
+    identificar_intencao,
+    identificar_proposicao,
+)
 
 def exibir_competencia(competencia):
     fundamento = competencia["fundamento"]
@@ -29,6 +38,23 @@ def main():
     tema = dados["tema"]
 
     consulta = input("Digite sua pergunta: ").strip()
+
+    intencao = identificar_intencao(consulta)
+
+    if intencao == "tramitacao":
+        proposicao_id = identificar_proposicao(consulta)
+
+        if proposicao_id:
+            proposicao = buscar_proposicao(proposicao_id)
+
+            if proposicao:
+                fonte_id = proposicao["situacao_atual"].get("fonte")
+                fonte = buscar_fonte(fonte_id) if fonte_id else None
+
+                responder_tramitacao(proposicao, fonte)
+                return
+
+    print(f"\nIntenção identificada: {intencao}")
 
     resultado = buscar_competencia(consulta, competencias)
 
