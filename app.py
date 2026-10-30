@@ -1,19 +1,6 @@
 import streamlit as st
 
-from src.interpreter import (
-    identificar_intencao,
-    identificar_proposicao,
-    identificar_decisao,
-    buscar_competencia,
-    identificar_tema,
-)
-
-from src.knowledge import (
-    carregar_competencias,
-    buscar_proposicao,
-    buscar_decisao,
-    buscar_fonte,
-)
+from src.core import processar_pergunta
 
 
 # --------------------------------------------------
@@ -140,143 +127,122 @@ st.divider()
 
 if pergunta:
 
-    intencao = identificar_intencao(pergunta)
+    resposta = processar_pergunta(pergunta)
 
     # ==================================================
     # TRAMITAÇÃO
     # ==================================================
 
-    if intencao == "tramitacao":
 
-        proposicao_id = identificar_proposicao(pergunta)
+    if resposta and resposta["tipo"] == "tramitacao":
 
-        if proposicao_id:
-            proposicao = buscar_proposicao(proposicao_id)
+        proposicao = resposta["proposicao"]
+        situacao = resposta["situacao"]
+        fonte = resposta["fonte"]
 
-            if proposicao:
+        st.caption("TRAMITAÇÃO LEGISLATIVA")
+        st.header(
+            f"{proposicao['tipo']} {proposicao['numero']}"
+        )
 
-                situacao = proposicao["situacao_atual"]
+        if situacao["status"] == "aguardando_designacao_de_relator":
+            st.warning("Ainda não foi aprovado.")
 
-                st.caption("TRAMITAÇÃO LEGISLATIVA")
-                st.header(
-                    f"{proposicao['tipo']} {proposicao['numero']}"
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown(
+                '<div class="label">Onde está</div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                f'<div class="institution">'
+                f'{situacao["sigla_orgao"]}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+            st.write(situacao["orgao"])
+
+        with col2:
+            st.markdown(
+                '<div class="label">Situação</div>',
+                unsafe_allow_html=True,
+            )
+            st.write(
+                situacao["status"]
+                .replace("_", " ")
+                .capitalize()
+            )
+
+        st.caption(
+            f"Situação consultada em "
+            f"{situacao['data_consulta']}."
+        )
+
+        if fonte:
+            with st.expander("📚 Evidência e fonte oficial"):
+                st.write(f"**{fonte['instituicao']}**")
+                st.write(fonte["titulo"])
+
+                st.link_button(
+                    "Consultar fonte oficial ↗",
+                    fonte["url"],
                 )
 
-                if situacao["status"] == "aguardando_designacao_de_relator":
-                    st.warning("Ainda não foi aprovado.")
+        st.stop()
 
-                col1, col2 = st.columns(2)
-
-                with col1:
-                    st.markdown(
-                        '<div class="label">Onde está</div>',
-                        unsafe_allow_html=True,
-                    )
-                    st.markdown(
-                        f'<div class="institution">'
-                        f'{situacao["sigla_orgao"]}'
-                        f'</div>',
-                        unsafe_allow_html=True,
-                    )
-                    st.write(situacao["orgao"])
-
-                with col2:
-                    st.markdown(
-                        '<div class="label">Situação</div>',
-                        unsafe_allow_html=True,
-                    )
-                    st.write(
-                        situacao["status"]
-                        .replace("_", " ")
-                        .capitalize()
-                    )
-
-                st.caption(
-                    f"Situação consultada em "
-                    f"{situacao['data_consulta']}."
-                )
-
-                fonte_id = situacao.get("fonte")
-                fonte = buscar_fonte(fonte_id) if fonte_id else None
-
-                if fonte:
-                    with st.expander("📚 Evidência e fonte oficial"):
-                        st.write(
-                            f"**{fonte['instituicao']}**"
-                        )
-                        st.write(fonte["titulo"])
-
-                        st.link_button(
-                            "Consultar fonte oficial ↗",
-                            fonte["url"],
-                        )
-
-                st.stop()
 
     # ==================================================
     # DECISÃO
     # ==================================================
 
-    if intencao == "decisao":
+    if resposta and resposta["tipo"] == "decisao":
 
-        decisao_id = identificar_decisao(pergunta)
+        decisao = resposta["decisao"]
+        fonte = resposta["fonte"]
 
-        if decisao_id:
-            decisao = buscar_decisao(decisao_id)
+        st.caption("DECISÃO INSTITUCIONAL")
+        st.header(decisao["sigla_orgao"])
 
-            if decisao:
+        st.write(
+            f"Em **{decisao['data']}**, o "
+            f"**{decisao['sigla_orgao']}** analisou "
+            "o caso registrado na base."
+        )
 
-                st.caption("DECISÃO INSTITUCIONAL")
-                st.header(decisao["sigla_orgao"])
+        if decisao["cria_nova_hipotese_legal"] is False:
+            st.success(
+                "✓ Não criou uma nova hipótese legal. "
+                "O tribunal interpretou e aplicou "
+                "uma norma já existente."
+            )
 
-                st.write(
-                    f"Em **{decisao['data']}**, o "
-                    f"**{decisao['sigla_orgao']}** analisou "
-                    "o caso registrado na base."
+        st.markdown("#### Efeito da decisão")
+        st.write(decisao["efeito"]["descricao"])
+
+        if fonte:
+            with st.expander("📚 Evidência e fonte oficial"):
+                st.write(f"**{fonte['instituicao']}**")
+                st.write(fonte["titulo"])
+
+                st.link_button(
+                    "Consultar fonte oficial ↗",
+                    fonte["url"],
                 )
 
-                if decisao["cria_nova_hipotese_legal"] is False:
-                    st.success(
-                        "✓ Não criou uma nova hipótese legal. "
-                        "O tribunal interpretou e aplicou "
-                        "uma norma já existente."
-                    )
-
-                st.markdown("#### Efeito da decisão")
-                st.write(decisao["efeito"]["descricao"])
-
-                fonte_id = decisao.get("fontes", [None])[0]
-                fonte = buscar_fonte(fonte_id) if fonte_id else None
-
-                if fonte:
-                    with st.expander("📚 Evidência e fonte oficial"):
-                        st.write(
-                            f"**{fonte['instituicao']}**"
-                        )
-                        st.write(fonte["titulo"])
-
-                        st.link_button(
-                            "Consultar fonte oficial ↗",
-                            fonte["url"],
-                        )
-
-                st.stop()
+        st.stop()
 
     # ==================================================
-    # COMPETÊNCIAS
+    # COMPETÊNCIA
     # ==================================================
 
-    dados = carregar_competencias()
+    if resposta and resposta["tipo"] == "competencia":
 
-    resultado = buscar_competencia(
-        pergunta,
-        dados["competencias"],
-    )
-
-    if resultado:
+        competencia = resposta["competencia"]
+        fundamento = competencia["fundamento"]
 
         st.caption("COMPETÊNCIA INSTITUCIONAL")
-        st.header(resultado["orgao"])
+        st.header(competencia["orgao"])
 
         col1, col2 = st.columns(2)
 
@@ -287,7 +253,7 @@ if pergunta:
             )
             st.markdown(
                 f'<div class="institution">'
-                f'{resultado["ente"]}'
+                f'{competencia["ente"]}'
                 f'</div>',
                 unsafe_allow_html=True,
             )
@@ -299,12 +265,10 @@ if pergunta:
             )
             st.markdown(
                 f'<div class="institution">'
-                f'{resultado["relacao"].capitalize()}'
+                f'{competencia["relacao"].capitalize()}'
                 f'</div>',
                 unsafe_allow_html=True,
             )
-
-        fundamento = resultado["fundamento"]
 
         st.markdown("#### Base legal")
 
@@ -314,27 +278,52 @@ if pergunta:
             f"§ {fundamento['paragrafo']}."
         )
 
-        if "observacao" in resultado:
-            st.info(resultado["observacao"])
+        if "observacao" in competencia:
+            st.info(competencia["observacao"])
 
-    elif identificar_tema(pergunta, dados["tema"]):
+        st.stop()
+
+
+    # ==================================================
+    # TEMA AMBÍGUO
+    # ==================================================
+
+    if resposta and resposta["tipo"] == "tema_ambiguo":
+
+        tema = resposta["tema"]
+        competencias = resposta["competencias"]
+
+        st.caption("TEMA AMPLO")
+        st.header(tema["nome"])
 
         st.warning(
-            "Essa pergunta envolve um tema com diferentes "
-            "competências institucionais."
+            "Esse tema envolve diferentes competências institucionais. "
+            "Não existe uma única resposta para quem é responsável."
         )
 
-        st.write("Tente especificar o que você quer saber:")
+        st.write("Você pode especificar, por exemplo:")
 
-        for competencia in dados["competencias"]:
-            st.write(
-                "• "
-                + competencia["assunto"]
+        for competencia in competencias:
+            assunto = (
+                competencia["assunto"]
                 .replace("_", " ")
                 .capitalize()
             )
 
-    else:
+            st.write(
+                f"**{assunto}** — "
+                f"{competencia['orgao']} "
+                f"({competencia['ente']})"
+            )
+
+        st.stop()
+
+
+    # ==================================================
+    # SEM RESPOSTA
+    # ==================================================
+
+    if resposta is None:
 
         st.warning(
             "Ainda não tenho informações suficientes "
