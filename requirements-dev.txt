@@ -1,0 +1,3 @@
+#ferramentas usadas no desenvolvimento/testes
+
+pytest>=9.0,<10.0
